@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Carriage Hill — Places Capital</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Carriage Hill — a 25-lot assemblage in Roxbury, NY in the Catskills, from Places Capital.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <link rel="stylesheet" href="styles.css?v=10">
+</head>
+<body>
+  <!-- ── Top nav (scroll anchors) ─────────────────────────────── -->
+  <header class="nav">
+    <a class="wordmark" href="#top" aria-label="Places Capital home"><img class="wm-img" src="assets/wordmark.svg?v=9" alt="Places Capital" width="180" height="18"></a>
+    <nav class="tabs">
+      <a class="tab" href="#carriage-hill" data-tab="carriage-hill">Carriage Hill</a>
+      <a class="tab" href="#why-roxbury"  data-tab="why-roxbury">Why Roxbury</a>
+      <a class="tab" href="#contact"      data-tab="contact">Contact</a>
+    </nav>
+  </header>
+
+  <!-- ── Hero: drone footage ──────────────────────────────────── -->
+  <section id="top" class="hero">
+    <!-- Real site photo as hero now; drop assets/drone.mp4 here later to use drone footage. -->
+    <video class="hero-media" autoplay muted loop playsinline poster="assets/hero.jpg?v=8">
+      <source src="assets/drone.mp4" type="video/mp4">
+    </video>
+    <div class="hero-overlay"></div>
+    <div class="hero-inner">
+      <p class="eyebrow light">Roxbury, New York · The Catskills</p>
+      <h1>Carriage Hill</h1>
+      <p class="lede light">A 26-parcel assemblage across ~43 acres at the edge of Roxbury village —
+        a rare, contiguous collection of home sites ranging from under an acre to 14 acres,
+        ready to become a place.</p>
+      <a class="scroll-cue" href="#carriage-hill">Explore the lots ↓</a>
+    </div>
+  </section>
+
+  <!-- ── Section 1: Carriage Hill (map) ───────────────────────── -->
+  <section id="carriage-hill" class="section">
+    <div class="wrap">
+      <p class="eyebrow">The assemblage</p>
+      <h2>26 parcels at the village's edge</h2>
+      <div id="provisional-banner" class="banner" hidden>
+        Provisional lot layout shown for review — surveyed parcel boundaries coming soon.
+      </div>
+    </div>
+
+    <div class="map-feature">
+      <div id="map"></div>
+      <div class="map-filter">
+        <span class="mf-title">Divisions</span>
+        <div class="mf-btns" id="filter"></div>
+        <div class="mf-summary" id="mf-summary"></div>
+      </div>
+    </div>
+
+    <!-- lot detail drawer -->
+    <div id="lot-detail" class="lot-detail" hidden>
+      <button class="ld-close" id="ld-close" aria-label="Close">&times;</button>
+      <p class="eyebrow" id="ld-type">Street</p>
+      <h3 id="ld-title">Parcel</h3>
+      <p id="ld-headline" class="ld-headline"></p>
+      <p id="ld-desc"></p>
+      <dl class="ld-meta">
+        <div><dt>Status</dt><dd id="ld-status"></dd></div>
+        <div><dt>Acreage</dt><dd id="ld-acre"></dd></div>
+      </dl>
+      <a class="btn" id="ld-inquire" href="#">Inquire about this lot</a>
+    </div>
+  </section>
+
+  <!-- ── Typologies (HUTS renderings) ─────────────────────────── -->
+  <section id="typologies" class="section alt">
+    <div class="wrap">
+      <p class="eyebrow">What you can build</p>
+      <h2>Four ways to make a place</h2>
+      <p class="lede">Each division suits a different kind of project. These renderings from
+        HUTS — our design-build partner — show the character we have in mind.</p>
+
+      <div class="typ-grid">
+        <article class="typ-card">
+          <div class="typ-img"><img src="assets/typ-homesites.jpg?v=8" alt="A modern HUTS home on a green hillside" loading="lazy"></div>
+          <div class="typ-body">
+            <p class="typ-name"><span class="typ-dot" style="background:#4C6FA4"></span>Homesites</p>
+            <p>Build-ready home sites near the village edge, from under an acre up — room for a
+              primary home or a weekend place.</p>
+          </div>
+        </article>
+        <article class="typ-card">
+          <div class="typ-img"><img src="assets/typ-str.jpg?v=8" alt="Aerial view of a HUTS cabin cluster in the woods" loading="lazy"></div>
+          <div class="typ-body">
+            <p class="typ-name"><span class="typ-dot" style="background:#C07A3E"></span>Short-Term Rental Cluster</p>
+            <p>A wooded, road-served cluster suited to a managed short-term-rental community.</p>
+          </div>
+        </article>
+        <article class="typ-card">
+          <div class="typ-img"><img src="assets/typ-community.jpg?v=8" alt="A lantern-lit HUTS cabin and gathering deck in the woods" loading="lazy"></div>
+          <div class="typ-body">
+            <p class="typ-name"><span class="typ-dot" style="background:#2E7D5B"></span>Outdoor Hospitality</p>
+            <p>View parcels suited to outdoor hospitality, retreats, and recreation.</p>
+          </div>
+        </article>
+        <article class="typ-card">
+          <div class="typ-img"><img src="assets/typ-hospitality.jpg?v=8" alt="A HUTS lodge with a fire pit at dusk" loading="lazy"></div>
+          <div class="typ-body">
+            <p class="typ-name"><span class="typ-dot" style="background:#6F7545"></span>Community</p>
+            <p>A village-edge parcel envisioned as communal or civic space for the town.</p>
+          </div>
+        </article>
+      </div>
+      <p class="typ-credit">Renderings &amp; photography courtesy of
+        <a href="https://huts.com" target="_blank" rel="noopener">HUTS</a>.</p>
+    </div>
+  </section>
+
+  <!-- ── Section 2: Why Roxbury ───────────────────────────────── -->
+  <section id="why-roxbury" class="section alt">
+    <div class="prose">
+      <header class="wr-hero">
+        <p class="eyebrow">The Catskills, New York</p>
+        <h2>Why Roxbury</h2>
+        <p class="lede">A walkable Catskills village with real bones — Main Street, mountains, and
+          room to build the kind of life that's getting harder to find within a few hours of the city.</p>
+      </header>
+
+      <figure class="wr-figure wide">
+        <img src="assets/roxbury-winter.jpg?v=8" alt="Snow-dusted Catskills peak above the treeline near Roxbury, New York" loading="lazy">
+      </figure>
+
+      <div class="wr-sec">
+        <p class="eyebrow">Why here</p>
+        <h3>A Catskills town on the rise</h3>
+        <p>More people are choosing the Catskills for good. Remote and hybrid work have widened where
+          life can happen; the trails, rivers, and ski slopes are a draw year-round; and towns like
+          Roxbury still offer space and quiet within reach of the Hudson Valley and New York City.
+          It's a place people are putting down roots, not just passing through.</p>
+        <p>Roxbury sits in Delaware County, in the western Catskills, among towns drawing a new wave
+          of residents and visitors — Kenoza Lake, Roscoe, Livingston Manor, and Andes among them.
+          It's a region with momentum and a strong sense of place.</p>
+        <figure class="wr-figure">
+          <img src="assets/roxbury-village.jpg?v=8" alt="Roxbury, New York — the central school and Methodist church on Main Street" loading="lazy">
+          <figcaption class="wr-cap">Roxbury, NY · photo by
+            <a href="https://commons.wikimedia.org/wiki/File:Roxbury_Central_School_and_Methodist_Church_Feb_09.jpg" target="_blank" rel="noopener">Doug&nbsp;Kerr</a>,
+            CC&nbsp;BY-SA&nbsp;2.0</figcaption>
+        </figure>
+      </div>
+
+      <div class="wr-sec">
+        <p class="eyebrow">The setting</p>
+        <h3>A place, not just a parcel</h3>
+        <p>Carriage Hill sits right at the village edge — minutes from Main Street, with town water
+          and sewer nearby and road access already in place. These aren't isolated lots deep in the
+          woods; they're part of a real community, with neighbors, services, and a town around them.</p>
+        <div class="wr-duo">
+          <img src="assets/site-woods.jpg?v=8" alt="Mature woods on the Carriage Hill land" loading="lazy">
+          <img src="assets/site-rock.jpg?v=8" alt="Natural rock ledge on the Carriage Hill land" loading="lazy">
+        </div>
+        <p class="wr-cap">On the land at Carriage Hill.</p>
+      </div>
+
+      <div class="wr-sec wr-vision">
+        <blockquote>
+          <p>A rare chance to own a piece of a Catskills village — and build something lasting.</p>
+        </blockquote>
+        <a class="btn" href="#carriage-hill">Explore the lots →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Section 3: Contact ───────────────────────────────────── -->
+  <section id="contact" class="section">
+    <div class="contact-wrap">
+      <p class="eyebrow">Get in touch</p>
+      <h2>Contact</h2>
+      <p class="lede">Interested in a lot at Carriage Hill, or the assemblage as a whole?
+        Email us and we'll be in touch.</p>
+      <p class="contact-email"><a id="contact-email" href="#">hello@placescapital.com</a></p>
+      <a class="btn" id="contact-inquire" href="#">Send an inquiry</a>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span class="foot-wm"><img class="wm-img" src="assets/wordmark.svg?v=9" alt="Places Capital" width="140" height="14"></span>
+    <span>Carriage Hill · Roxbury, NY</span>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="app.js?v=8"></script>
+</body>
+</html>
