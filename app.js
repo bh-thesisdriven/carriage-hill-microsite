@@ -83,7 +83,7 @@ async function initMap() {
     { position: "topright", collapsed: false }
   ).addTo(map);
 
-  const data = await fetch("data/parcels.geojson").then((r) => r.json());
+  const data = await fetch("data/parcels.geojson?v=13").then((r) => r.json());
   if (data.metadata && data.metadata.provisional) {
     document.getElementById("provisional-banner").hidden = false;
   }
