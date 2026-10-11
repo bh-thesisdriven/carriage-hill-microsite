@@ -112,7 +112,11 @@ async function initMap() {
 
 function highlight(n, on) {
   const l = layers[n];
-  if (l) l.setStyle(lotStyle({ properties: LOTS.find((x) => x.id === n) }, on));
+  if (l) {
+    l.setStyle(lotStyle({ properties: LOTS.find((x) => x.id === n) }, on));
+    // Bring highlighted parcels to the front so neighbors don't paint over their outline.
+    if (on && l.bringToFront) l.bringToFront();
+  }
   document.querySelectorAll(`.lot-row[data-lot="${CSS.escape(n)}"]`).forEach((r) =>
     r.classList.toggle("active", on)
   );
@@ -171,7 +175,11 @@ function updateSummary() {
 function selectLot(n, pan) {
   const l = LOTS.find((x) => x.id === n);
   if (!l) return;
-  Object.values(layers).forEach((lay) => { lay._selected = false; });
+  // Clear any prior selection AND redraw those parcels back to the base style.
+  Object.entries(layers).forEach(([id, lay]) => {
+    lay._selected = false;
+    lay.setStyle(lotStyle({ properties: LOTS.find((x) => x.id === id) }, false));
+  });
   const layer = layers[n];
   if (layer) {
     layer._selected = true;
