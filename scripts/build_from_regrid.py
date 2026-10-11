@@ -47,6 +47,27 @@ def lot_suffix(parcelnumb):
     nums = re.findall(r"\d+", parcelnumb)
     return int(nums[-1]) if nums else None
 
+
+# Drone/site photos (from the HUTS Playbook) are grouped by lot range, not per parcel.
+# Map each lot number to its group's representative images (path under assets/lots/, caption).
+# Lots 30-32 have no dedicated shots — they share Lot 33's Outdoor Hospitality hillside.
+PHOTO_GROUPS = [
+    ([33, 30, 31, 32], [("Lot33_valley-vista.jpg", "Valley vista"),
+                        ("Lot33_fall-hillside.jpg", "Fall hillside")]),
+    ([1, 12, 13, 14, 15, 16, 17, 18, 19], [("Lots1-12-19_village-mountain.jpg", "Village & mountains"),
+                                           ("Lots1-12-19_valley-hamlet.jpg", "Valley hamlet")]),
+    ([21, 22, 23, 24, 25, 26, 27, 28], [("Lots21-28_mountain-vista.jpg", "Mountain vista"),
+                                        ("Lots21-28_golden-hillside.jpg", "Golden hillside")]),
+    ([34, 35, 36, 37, 38, 39], [("Lots34-39_fall-aerial.jpg", "Fall aerial"),
+                                ("Lots34-39_woodland-interior.jpg", "Woodland interior")]),
+    ([43, 44, 45, 46], [("Lots43-46_village-mountains.jpg", "Village & mountains"),
+                        ("Lots43-46_valley-vista.jpg", "Valley vista")]),
+]
+IMAGES_BY_LOT = {}
+for _lots, _imgs in PHOTO_GROUPS:
+    for _n in _lots:
+        IMAGES_BY_LOT[_n] = [{"src": "assets/lots/" + s, "caption": c} for s, c in _imgs]
+
 NUM = r'-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?'
 
 def wkt_to_geometry(wkt):
@@ -108,6 +129,7 @@ def main():
                     "status": "available",
                     "headline": f"{ac} acres" if ac else "",
                     "description": u["desc"],
+                    "images": IMAGES_BY_LOT.get(suffix, []),
                     "_order": order,
                 },
                 "geometry": geom,

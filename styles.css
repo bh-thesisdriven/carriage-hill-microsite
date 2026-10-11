@@ -167,10 +167,18 @@ em{font-style:italic}
 .lot-detail{
   position:fixed;right:0;top:0;height:100vh;width:min(420px,92vw);z-index:1200;
   background:#fff;border-left:1px solid var(--line);box-shadow:-18px 0 50px rgba(25,25,25,.12);
-  padding:64px clamp(20px,3vw,32px) 32px;overflow:auto;
+  --ld-pad:28px;padding:64px var(--ld-pad) 32px;overflow:auto;
 }
-.ld-close{position:absolute;top:16px;right:18px;border:0;background:none;font-size:30px;line-height:1;color:var(--muted);cursor:pointer}
-.ld-close:hover{color:var(--ink)}
+.ld-close{position:absolute;top:14px;right:16px;z-index:2;border:0;border-radius:50%;
+  background:rgba(255,255,255,.85);width:32px;height:32px;font-size:24px;line-height:1;
+  color:var(--ink);cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+.ld-close:hover{background:#fff}
+.ld-gallery{margin:-64px calc(-1*var(--ld-pad)) 20px;display:flex;flex-direction:column;gap:2px}
+.ld-gallery figure{margin:0;position:relative}
+.ld-gallery img{display:block;width:100%;height:220px;object-fit:cover}
+.ld-gallery figcaption{position:absolute;left:0;bottom:0;right:0;
+  font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+  color:#fff;padding:14px 14px 8px;background:linear-gradient(transparent,rgba(0,0,0,.55))}
 .ld-headline{font-family:var(--serif);font-size:19px;margin:6px 0 14px;color:var(--olive)}
 .lot-detail h3{font-size:30px;margin-top:4px}
 .ld-meta{display:grid;grid-template-columns:1fr 1fr;gap:16px 20px;margin:22px 0}

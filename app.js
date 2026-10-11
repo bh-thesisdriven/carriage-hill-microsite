@@ -178,6 +178,14 @@ function selectLot(n, pan) {
     highlight(n, true);
     if (pan && layer.getBounds) window._map.panTo(layer.getBounds().getCenter(), { animate: true });
   }
+  const gal = document.getElementById("ld-gallery");
+  const imgs = l.images || [];
+  gal.innerHTML = imgs.map((im) =>
+    `<figure><img src="${im.src}" alt="${im.caption || l.label}" loading="lazy">` +
+    (im.caption ? `<figcaption>${im.caption}</figcaption>` : "") + `</figure>`
+  ).join("");
+  gal.style.display = imgs.length ? "block" : "none";
+
   document.getElementById("ld-type").textContent = l.group_label;
   document.getElementById("ld-title").textContent = l.label;
   document.getElementById("ld-headline").textContent = l.headline;
