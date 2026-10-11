@@ -55,8 +55,10 @@ AERIAL_LOTS = {30, 31, 32, 33, 1, 12, 19, 21, 22, 23, 43, 46}   # drone (top-dow
 # everything else = on-the-ground
 ALL_LOTS = [30, 31, 32, 33, 1, 12, 13, 15, 16, 19, 21, 22, 23, 24, 26, 28,
             34, 35, 36, 37, 38, 39, 43, 44, 45, 46]
+# Bump IMG_V when a lot image's *content* changes (same filename) so browsers refetch it.
+IMG_V = "15"
 IMAGES_BY_LOT = {
-    n: [{"src": f"assets/lots/lot{n}.jpg",
+    n: [{"src": f"assets/lots/lot{n}.jpg?v={IMG_V}",
          "caption": "Aerial view" if n in AERIAL_LOTS else "On the land"}]
     for n in ALL_LOTS
 }
