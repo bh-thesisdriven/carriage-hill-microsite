@@ -48,32 +48,18 @@ def lot_suffix(parcelnumb):
     return int(nums[-1]) if nums else None
 
 
-# One image per lot, each showing the lot itself — NOT a vista implying a view that may not
-# exist, and no on-the-ground photo reused across lots. Drone shots looking down/at a cluster
-# are shared within that cluster (fine); Lots 34-39 each get a distinct ground woodland photo.
-_AERIAL_33 = [("lot33_aerial.jpg", "Aerial over the lot")]
-_AERIAL_1_19 = [("cluster_1-19_aerial.jpg", "Aerial over the lot")]
-_HILL_21_28 = [("cluster_21-28_hillside.jpg", "The wooded parcel")]
-_AERIAL_43_46 = [("cluster_43-46_aerial.jpg", "Aerial over the lot")]
-
-IMAGES_RAW = {
-    # Outdoor Hospitality cluster (30-33 share one top-down drone shot)
-    33: _AERIAL_33, 30: _AERIAL_33, 31: _AERIAL_33, 32: _AERIAL_33,
-    # 1 + 12-19 cluster (shared top-down)
-    1: _AERIAL_1_19, 12: _AERIAL_1_19, 13: _AERIAL_1_19, 15: _AERIAL_1_19,
-    16: _AERIAL_1_19, 19: _AERIAL_1_19,
-    # 21-28 cluster (shared oblique of the wooded slope)
-    21: _HILL_21_28, 22: _HILL_21_28, 23: _HILL_21_28, 24: _HILL_21_28,
-    26: _HILL_21_28, 28: _HILL_21_28,
-    # 34-39 — a distinct on-the-ground woodland photo per lot
-    34: [("w34.jpg", "On the land")], 35: [("w35.jpg", "On the land")],
-    36: [("w36.jpg", "On the land")], 37: [("w37.jpg", "On the land")],
-    38: [("w38.jpg", "On the land")], 39: [("w39.jpg", "On the land")],
-    # 43-46 cluster (shared top-down)
-    43: _AERIAL_43_46, 44: _AERIAL_43_46, 45: _AERIAL_43_46, 46: _AERIAL_43_46,
+# A DISTINCT image per lot (assets/lots/lot<N>.jpg), each from that lot's own cluster shoot —
+# no shared image across obviously-different parcels. Captions stay honest (aerial vs on-the-
+# ground) and never claim a specific parcel, since frames aren't mapped to exact lot numbers.
+AERIAL_LOTS = {30, 31, 32, 33, 1, 12, 19, 21, 22, 23, 43, 46}   # drone (top-down/oblique)
+# everything else = on-the-ground
+ALL_LOTS = [30, 31, 32, 33, 1, 12, 13, 15, 16, 19, 21, 22, 23, 24, 26, 28,
+            34, 35, 36, 37, 38, 39, 43, 44, 45, 46]
+IMAGES_BY_LOT = {
+    n: [{"src": f"assets/lots/lot{n}.jpg",
+         "caption": "Aerial view" if n in AERIAL_LOTS else "On the land"}]
+    for n in ALL_LOTS
 }
-IMAGES_BY_LOT = {n: [{"src": "assets/lots/" + s, "caption": c} for s, c in imgs]
-                 for n, imgs in IMAGES_RAW.items()}
 
 NUM = r'-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?'
 
