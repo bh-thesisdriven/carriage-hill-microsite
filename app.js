@@ -46,7 +46,7 @@ function wireContact() {
       email: form.email.value.trim(),
       phone: form.phone.value.trim(),
       message: form.message.value.trim(),
-      _subject: "Carriage Hill — website inquiry",
+      _subject: "Carriage Hill website inquiry",
       _template: "table",
     };
 
@@ -243,12 +243,12 @@ function selectLot(n, pan) {
   document.getElementById("ld-desc").textContent = l.description;
   document.getElementById("ld-status").textContent =
     l.status === "available" ? "Available" : l.status;
-  document.getElementById("ld-acre").textContent = l.acreage ? l.acreage + " acres" : "—";
+  document.getElementById("ld-acre").textContent = l.acreage ? l.acreage + " acres" : "n/a";
   const inq = document.getElementById("ld-inquire");
   inq.href = "#contact";
   inq.onclick = () => {
     const msg = document.querySelector('#contact-form [name="message"]');
-    if (msg) msg.value = `${l.label} — ${l.group_label}\n`;
+    if (msg) msg.value = `${l.label}, ${l.group_label}\n`;
     closeDetail();
   };
   document.getElementById("lot-detail").hidden = false;
