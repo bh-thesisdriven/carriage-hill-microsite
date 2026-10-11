@@ -231,11 +231,26 @@ em{font-style:italic}
 
 /* ── Contact section ─────────────────────────────────────────── */
 .contact-wrap{max-width:620px;margin:0 auto;padding:0 clamp(16px,4vw,40px)}
-.contact-email{margin:30px 0 0}
-.contact-email a{font-family:var(--serif);font-size:clamp(24px,4vw,34px);color:var(--ink);
-  text-decoration:none;border-bottom:2px solid var(--sand);padding-bottom:2px}
-.contact-email a:hover{border-color:var(--ink)}
-.contact-wrap .btn{margin-top:30px}
+.cform{margin-top:32px;display:flex;flex-direction:column;gap:16px}
+.cf-row{display:flex;gap:16px}
+.cf-row > label{flex:1}
+.cform label{display:flex;flex-direction:column;gap:7px;font-family:var(--mono);
+  font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.cform .opt{text-transform:none;letter-spacing:0;color:var(--muted);opacity:.7}
+.cform input,.cform textarea{
+  font-family:var(--serif);font-size:16px;letter-spacing:normal;text-transform:none;color:var(--ink);
+  background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 13px;width:100%;}
+.cform input:focus,.cform textarea:focus{outline:none;border-color:var(--olive);
+  box-shadow:0 0 0 3px rgba(111,117,69,.12)}
+.cform textarea{resize:vertical;min-height:120px}
+.cf-honey{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.cform .btn{align-self:flex-start;margin-top:4px;border:0;cursor:pointer}
+.cform .btn:disabled{opacity:.6;cursor:default}
+.cf-status{margin:4px 0 0;font-family:var(--mono);font-size:12px;letter-spacing:.02em}
+.cf-status.ok{color:var(--olive)}
+.cf-status.err{color:#b02a2a}
+.cf-status.err a{color:#b02a2a}
+@media(max-width:520px){.cf-row{flex-direction:column;gap:16px}}
 
 /* ── Footer ──────────────────────────────────────────────────── */
 .foot{

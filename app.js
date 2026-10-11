@@ -1,8 +1,8 @@
 /* Carriage Hill microsite — tabs, map, lot interactions. No build step. */
 
-// ── Contact details (edit this) ────────────────────────────────
+// ── Contact form (Formsubmit.co relay — no account/DB; emails submissions here) ──
 const CONTACT = {
-  email: "hello@placescapital.com",      // TODO: confirm the real Places Capital inbox
+  email: "brad@thesisdriven.com",        // where inquiries are delivered (TODO: swap to PC inbox later)
 };
 
 const TABS = ["carriage-hill", "why-roxbury", "contact"];
@@ -22,13 +22,56 @@ function initScrollSpy() {
   TABS.forEach((id) => { const el = document.getElementById(id); if (el) obs.observe(el); });
 }
 
-// ── Contact wiring ─────────────────────────────────────────────
+// ── Contact form ───────────────────────────────────────────────
 function wireContact() {
-  const mail = `mailto:${CONTACT.email}`;
-  const subj = "?subject=" + encodeURIComponent("Carriage Hill — inquiry");
-  const e = document.getElementById("contact-email");
-  e.textContent = CONTACT.email; e.href = mail;
-  document.getElementById("contact-inquire").href = mail + subj;
+  const form = document.getElementById("contact-form");
+  if (!form) return;
+  const status = document.getElementById("cf-status");
+  const btn = document.getElementById("cf-submit");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (form._honey && form._honey.value) return;          // bot filled the honeypot
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+
+    btn.disabled = true;
+    const btnText = btn.textContent;
+    btn.textContent = "Sending…";
+    status.className = "cf-status";
+    status.textContent = "";
+
+    const payload = {
+      name: form.name.value.trim(),
+      email: form.email.value.trim(),
+      phone: form.phone.value.trim(),
+      message: form.message.value.trim(),
+      _subject: "Carriage Hill — website inquiry",
+      _template: "table",
+    };
+
+    try {
+      const res = await fetch("https://formsubmit.co/ajax/" + encodeURIComponent(CONTACT.email), {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && (data.success === "true" || data.success === true)) {
+        form.reset();
+        status.className = "cf-status ok";
+        status.textContent = "Thanks — your note is on its way. We'll be in touch.";
+        btn.textContent = "Sent ✓";
+        return;
+      }
+      throw new Error((data && data.message) || "Request failed");
+    } catch (err) {
+      status.className = "cf-status err";
+      status.innerHTML = 'Something went wrong sending the form. Please email us at ' +
+        '<a href="mailto:' + CONTACT.email + '">' + CONTACT.email + "</a>.";
+      btn.disabled = false;
+      btn.textContent = btnText;
+    }
+  });
 }
 
 // ── Map ────────────────────────────────────────────────────────

@@ -24,7 +24,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
-  <link rel="stylesheet" href="styles.css?v=15">
+  <link rel="stylesheet" href="styles.css?v=16">
 </head>
 <body>
   <!-- ── Top nav (scroll anchors) ─────────────────────────────── -->
@@ -191,11 +191,30 @@
   <section id="contact" class="section">
     <div class="contact-wrap">
       <p class="eyebrow">Get in touch</p>
-      <h2>Contact</h2>
+      <h2>Tell us what you're looking for</h2>
       <p class="lede">Interested in a lot at Carriage Hill, or the assemblage as a whole?
-        Email us and we'll be in touch.</p>
-      <p class="contact-email"><a id="contact-email" href="#">hello@placescapital.com</a></p>
-      <a class="btn" id="contact-inquire" href="#">Send an inquiry</a>
+        Send us a note and we'll be in touch.</p>
+
+      <form id="contact-form" class="cform" novalidate>
+        <div class="cf-row">
+          <label>Name
+            <input type="text" name="name" autocomplete="name" required>
+          </label>
+          <label>Email
+            <input type="email" name="email" autocomplete="email" required>
+          </label>
+        </div>
+        <label>Phone <span class="opt">(optional)</span>
+          <input type="tel" name="phone" autocomplete="tel">
+        </label>
+        <label>Message
+          <textarea name="message" rows="5" placeholder="Which lot or division are you interested in? Anything you'd like us to know?" required></textarea>
+        </label>
+        <!-- spam honeypot (hidden from people) -->
+        <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" class="cf-honey">
+        <button type="submit" class="btn" id="cf-submit">Send inquiry</button>
+        <p class="cf-status" id="cf-status" role="status" aria-live="polite"></p>
+      </form>
     </div>
   </section>
 
@@ -206,6 +225,6 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
           integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script src="app.js?v=15"></script>
+  <script src="app.js?v=16"></script>
 </body>
 </html>
