@@ -1,8 +1,9 @@
 /* Carriage Hill microsite — tabs, map, lot interactions. No build step. */
 
-// ── Contact form (Formsubmit.co relay — no account/DB; emails submissions here) ──
+// ── Contact form (Formsubmit.co relay — no account/DB) ──
+// Hashed alias so the delivery email isn't exposed in page source.
 const CONTACT = {
-  email: "brad@thesisdriven.com",        // where inquiries are delivered (TODO: swap to PC inbox later)
+  endpoint: "1ae87ed7c9cade3bf4988178847aabf3",   // Formsubmit alias for the delivery inbox
 };
 
 const TABS = ["carriage-hill", "why-roxbury", "contact"];
@@ -50,7 +51,7 @@ function wireContact() {
     };
 
     try {
-      const res = await fetch("https://formsubmit.co/ajax/" + encodeURIComponent(CONTACT.email), {
+      const res = await fetch("https://formsubmit.co/ajax/" + CONTACT.endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json", "Accept": "application/json" },
         body: JSON.stringify(payload),
@@ -66,8 +67,7 @@ function wireContact() {
       throw new Error((data && data.message) || "Request failed");
     } catch (err) {
       status.className = "cf-status err";
-      status.innerHTML = 'Something went wrong sending the form. Please email us at ' +
-        '<a href="mailto:' + CONTACT.email + '">' + CONTACT.email + "</a>.";
+      status.textContent = "Something went wrong sending your note. Please try again in a moment.";
       btn.disabled = false;
       btn.textContent = btnText;
     }
