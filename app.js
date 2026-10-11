@@ -60,8 +60,8 @@ function wireContact() {
       if (res.ok && (data.success === "true" || data.success === true)) {
         form.reset();
         status.className = "cf-status ok";
-        status.textContent = "Thanks — your note is on its way. We'll be in touch.";
-        btn.textContent = "Sent ✓";
+        status.textContent = "Thank you. We'll be in touch.";
+        btn.textContent = "Sent";
         return;
       }
       throw new Error((data && data.message) || "Request failed");
@@ -245,8 +245,12 @@ function selectLot(n, pan) {
     l.status === "available" ? "Available" : l.status;
   document.getElementById("ld-acre").textContent = l.acreage ? l.acreage + " acres" : "—";
   const inq = document.getElementById("ld-inquire");
-  inq.href = `mailto:${CONTACT.email}?subject=` +
-    encodeURIComponent(`Carriage Hill — parcel ${l.label} inquiry`);
+  inq.href = "#contact";
+  inq.onclick = () => {
+    const msg = document.querySelector('#contact-form [name="message"]');
+    if (msg) msg.value = `${l.label} — ${l.group_label}\n`;
+    closeDetail();
+  };
   document.getElementById("lot-detail").hidden = false;
 }
 function closeDetail() {
